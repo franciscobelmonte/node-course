@@ -1,4 +1,5 @@
 const fs = require('fs');
+const colors = require('colors');
 
 let createFile = (base, limit = 10) => {
     return new Promise((resolve, reject) => {
@@ -21,6 +22,9 @@ let createFile = (base, limit = 10) => {
 }
 
 let listTable = (base, limit = 10) => {
+    console.log('==========================='.green);
+    console.log(`Table of multiplication ${base}`.green);
+    console.log('==========================='.green);
     for (let index = 1; index <= limit; index++) {
         console.log(`${base} * ${index} = ${base * index}`);
     }
