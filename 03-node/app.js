@@ -9,16 +9,35 @@ const argv = require('yargs')
             default: 10
         }
     })
+    .command('create', 'Create file with the table of multiplication', {
+        base: {
+            demand: true,
+            alias: 'b'
+        },
+        limit: {
+            alias: 'l',
+            default: 10
+        }
+    })
     .help()
     .argv;
 
-const { createFile } = require('./multiply/multiply');
+const { createFile, listTable } = require('./multiply/multiply');
 
-let base = argv.base;
-let limit = argv.limit;
+let command = argv._[0];
 
-console.log(base, limit);
+switch (command) {
+    case 'list':
+        listTable(argv.base, argv.limit);
+        break;
 
-createFile(base)
-    .then(file => console.log(`File was created: ${file}`))
-    .catch(error => console.error(error));
+    case 'create':
+        createFile(argv.base, argv.limit)
+            .then(file => console.log(`File was created: ${file}`))
+            .catch(error => console.error(error));
+        break;
+
+    default:
+        console.error('Command unknown')
+        break;
+}
