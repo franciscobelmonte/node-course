@@ -1,3 +1,4 @@
+const colors = require('colors');
 const argv = require('./config/yargs').argv;
 const tasks = require('./tasks/tasks');
 
@@ -12,7 +13,13 @@ switch (command) {
         break;
 
     case 'list':
-
+        let tasksToDo = tasks.list();
+        for (const task of tasksToDo) {
+            console.log('======Tasks======'.green);
+            console.log(task.description);
+            console.log('Completed: ', task.completed);
+            console.log('================='.green);
+        }
         break;
 
     case 'update':

@@ -16,6 +16,11 @@ const create = (description) => {
     return task;
 }
 
+const list = () => {
+    load();
+    return tasks;
+}
+
 const save = () => {
     let json = JSON.stringify(tasks);
     fs.writeFile('db/tasks.json', json, (err) => {
@@ -33,5 +38,6 @@ const load = () => {
 
 module.exports = {
     create,
-    save
+    save,
+    list
 }

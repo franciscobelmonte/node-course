@@ -18,5 +18,6 @@ module.exports.argv = require('yargs')
             desc: 'Check the task completed'
         }
     })
+    .command('list', 'List tasks')
     .help()
     .argv;
