@@ -12,10 +12,11 @@ module.exports.argv = require('yargs')
             alias: 'd',
             desc: 'Description of task to do'
         },
-        complete: {
+        completed: {
             default: true,
             alias: 'c',
-            desc: 'Check the task completed'
+            desc: 'Check the task completed',
+            type: 'boolean'
         }
     })
     .command('list', 'List tasks')

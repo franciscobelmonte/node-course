@@ -23,7 +23,8 @@ switch (command) {
         break;
 
     case 'update':
-
+        let taskToUpdate = tasks.update(argv.description, argv.completed);
+        console.log(taskToUpdate);
         break;
 
     default:

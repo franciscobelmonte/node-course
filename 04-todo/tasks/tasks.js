@@ -16,6 +16,17 @@ const create = (description) => {
     return task;
 }
 
+const update = (description, completed = true) => {
+    load();
+    for (const task of tasks) {
+        if (task.description === description) {
+            task.completed = completed;
+            save();
+            return task;
+        }
+    }
+}
+
 const list = () => {
     load();
     return tasks;
@@ -38,6 +49,7 @@ const load = () => {
 
 module.exports = {
     create,
+    update,
     save,
     list
 }
