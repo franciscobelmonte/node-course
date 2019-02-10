@@ -6,4 +6,10 @@ const argv = require('yargs').options({
     }
 }).argv;
 
-console.log(argv);
+const geocoding = require('./geocoding/geocoding');
+
+geocoding.geocoding(argv.address)
+    .then(response => {
+        console.log(response);
+    })
+    .catch(error => console.error(error));
