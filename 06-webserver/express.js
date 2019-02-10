@@ -1,12 +1,14 @@
+const path = require('path');
 const express = require('express');
 const app = express();
 
 const hbs = require('hbs');
 require('./hbs/helpers');
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.dirname(__filename) + '/public'));
 
-hbs.registerPartials(__dirname + '/views/partials');
+hbs.registerPartials(path.dirname(__filename) + '/views/partials');
+app.set('views', path.dirname(__filename) + '/views');
 app.set('view engine', 'hbs');
 
 const port = process.env.PORT || 3000;
