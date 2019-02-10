@@ -27,6 +27,11 @@ switch (command) {
         console.log(taskToUpdate);
         break;
 
+    case 'delete':
+        let success = tasks.deleteTask(argv.description);
+        console.log(success);
+        break;
+
     default:
         console.error('Command unknown');
         return;

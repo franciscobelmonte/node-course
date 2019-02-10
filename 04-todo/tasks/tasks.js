@@ -27,6 +27,17 @@ const update = (description, completed = true) => {
     }
 }
 
+const deleteTask = (description) => {
+    load();
+    let previous = tasks.length;
+    tasks = tasks.filter(task => task.description !== description);
+    if (previous === tasks.length) {
+        return false;
+    }
+    save();
+    return true;
+}
+
 const list = () => {
     load();
     return tasks;
@@ -50,6 +61,7 @@ const load = () => {
 module.exports = {
     create,
     update,
+    deleteTask,
     save,
     list
 }

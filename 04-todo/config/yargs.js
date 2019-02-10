@@ -6,6 +6,13 @@ module.exports.argv = require('yargs')
             desc: 'Description of task to do'
         }
     })
+    .command('delete', 'Dekete task', {
+        description: {
+            demand: true,
+            alias: 'd',
+            desc: 'Description of task to delete'
+        }
+    })
     .command('update', 'Completed task', {
         description: {
             demand: true,
