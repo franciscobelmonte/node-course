@@ -9,15 +9,17 @@ const argv = require('yargs').options({
 const geocoding = require('./geocoding/geocoding');
 const weather = require('./geocoding/weather');
 
-// geocoding.geocoding(argv.address)
-//     .then(location => {
-//         console.log(location);
-//     })
-//     .catch(error => console.error(error));
+getInfo = async(address) => {
+    try {
+        let location = await geocoding.geocoding(address);
+        let temperature = await weather.weather(location.latitude, location.longitude);
 
+        return `Weather in ${location.address} is ${temperature}`;
+    } catch (error) {
+        return `Weather not found in ${address}`;
+    }
+}
 
-weather.weather(39.202600, -0.310600)
-    .then(temperature => {
-        console.log(temperature);
-    })
+getInfo(argv.address)
+    .then(message => console.log(message))
     .catch(error => console.error(error));
