@@ -3,17 +3,13 @@ const app = express();
 
 app.use(express.static(__dirname + '/public'));
 
-app.get('/', (req, res) => {
-    let json = {
-        name: 'Francisco',
-        age: 31,
-        url: req.url,
-    }
-    res.send(json);
-});
+app.set('view engine', 'hbs');
 
-app.get('/hello', (req, res) => {
-    res.send('Hello world!');
+app.get('/', (req, res) => {
+    res.render('home', {
+        name: 'Francisco Belmonte Ruiz',
+        year: new Date().getFullYear()
+    });
 });
 
 app.listen(3000, () => {
