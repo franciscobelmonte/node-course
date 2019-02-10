@@ -9,8 +9,7 @@ app.use(express.static(__dirname + '/public'));
 hbs.registerPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
 
-// Handlebars helpers
-
+const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
     res.render('home', {
@@ -22,6 +21,6 @@ app.get('/about', (req, res) => {
     res.render('about');
 });
 
-app.listen(3000, () => {
-    console.log('Listening requests in port 3000.');
+app.listen(port, () => {
+    console.log(`Listening requests in port ${port}.`);
 });
