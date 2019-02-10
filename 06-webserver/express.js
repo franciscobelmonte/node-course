@@ -2,23 +2,24 @@ const express = require('express');
 const app = express();
 
 const hbs = require('hbs');
+require('./hbs/helpers');
 
 app.use(express.static(__dirname + '/public'));
 
 hbs.registerPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
 
+// Handlebars helpers
+
+
 app.get('/', (req, res) => {
     res.render('home', {
-        name: 'Francisco Belmonte Ruiz',
-        year: new Date().getFullYear()
+        name: 'fraNCisco BELmonte RuIz'
     });
 });
 
 app.get('/about', (req, res) => {
-    res.render('about', {
-        year: new Date().getFullYear()
-    });
+    res.render('about');
 });
 
 app.listen(3000, () => {
