@@ -1,0 +1,20 @@
+{
+    "name": "course",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node 06-webserver/express.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/franciscobelmonte/node-course.git"
+    },
+    "author": "Francisco Belmonte Ruiz",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/franciscobelmonte/node-course/issues"
+    },
+    "homepage": "https://github.com/franciscobelmonte/node-course#readme"
+}
