@@ -38,9 +38,9 @@ const deleteTask = (description) => {
     return true;
 }
 
-const list = () => {
+const list = (completed = false) => {
     load();
-    return tasks;
+    return tasks.filter(task => task.completed === completed);
 }
 
 const save = () => {

@@ -13,7 +13,7 @@ switch (command) {
         break;
 
     case 'list':
-        let tasksToDo = tasks.list();
+        let tasksToDo = tasks.list(argv.completed);
         for (const task of tasksToDo) {
             console.log('======Tasks======'.green);
             console.log(task.description);
