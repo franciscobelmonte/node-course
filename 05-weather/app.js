@@ -7,9 +7,17 @@ const argv = require('yargs').options({
 }).argv;
 
 const geocoding = require('./geocoding/geocoding');
+const weather = require('./geocoding/weather');
 
-geocoding.geocoding(argv.address)
-    .then(response => {
-        console.log(response);
+// geocoding.geocoding(argv.address)
+//     .then(location => {
+//         console.log(location);
+//     })
+//     .catch(error => console.error(error));
+
+
+weather.weather(39.202600, -0.310600)
+    .then(temperature => {
+        console.log(temperature);
     })
     .catch(error => console.error(error));
