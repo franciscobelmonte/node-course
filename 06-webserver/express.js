@@ -5,10 +5,10 @@ const app = express();
 const hbs = require('hbs');
 require('./hbs/helpers');
 
-app.use(express.static(path.dirname(__filename) + '/public'));
+app.use(express.static(path.join(path.dirname(__filename), 'public')));
 
-hbs.registerPartials(path.dirname(__filename) + '/views/partials');
-app.set('views', path.dirname(__filename) + '/views');
+hbs.registerPartials(path.join(path.dirname(__filename), 'views', 'partials'));
+app.set('views', path.join(path.dirname(__filename), 'views'));
 app.set('view engine', 'hbs');
 
 const port = process.env.PORT || 3000;
