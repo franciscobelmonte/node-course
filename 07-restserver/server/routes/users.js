@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
 
@@ -13,11 +14,11 @@ app.post('/users', function(req, res) {
     let user = new User({
         name: body.name,
         email: body.email,
-        password: body.password,
+        password: bcrypt.hashSync(body.password, 10),
         role: body.role
     });
 
-    user.save((err, db) => {
+    user.save((err, userDB) => {
         if (err) {
             res.status(400).json({
                 error: err
@@ -27,7 +28,7 @@ app.post('/users', function(req, res) {
 
         res.json({
             error: false,
-            user: db
+            user: userDB
         });
     });
 });
