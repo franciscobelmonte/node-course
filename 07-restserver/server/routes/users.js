@@ -38,7 +38,7 @@ app.put('/users/:id', function(req, res) {
     let id = req.params.id;
     let body = _.pick(req.body, ['name', 'email', 'img', 'role', 'status']);
 
-    let user = User.findByIdAndUpdate(id, body, { new: true, runValidators: true }, (err, userDB) => {
+    let user = User.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, userDB) => {
 
         if (err) {
             res.status(400).json({
