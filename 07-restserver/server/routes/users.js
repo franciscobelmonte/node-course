@@ -22,6 +22,7 @@ app.get('/users', function(req, res) {
 
             User.countDocuments({}, (err, count) => {
                 res.json({
+                    error: false,
                     users,
                     total: count
                 });
@@ -73,8 +74,31 @@ app.put('/users/:id', function(req, res) {
     });
 });
 
-app.delete('/users', function(req, res) {
-    res.json('delete Users');
+app.delete('/users/:id', function(req, res) {
+    let id = req.params.id;
+
+    User.findByIdAndRemove(id, (err, userDB) => {
+        if (err) {
+            res.status(400).json({
+                error: err
+            });
+            return;
+        }
+
+        if (!userDB) {
+            res.status(400).json({
+                error: {
+                    message: 'User not found'
+                },
+            });
+            return;
+        }
+
+        res.json({
+            error: false,
+            user: userDB
+        });
+    });
 });
 
 module.exports = app;
