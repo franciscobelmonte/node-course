@@ -9,7 +9,7 @@ app.get('/users', function(req, res) {
     let from = req.query.from || 0;
     let limit = req.query.limit || 5;
 
-    User.find({}, 'name email role status google img')
+    User.find({ status: true }, 'name email role status google img')
         .skip(Number(from))
         .limit(Number(limit))
         .exec((err, users) => {
@@ -20,7 +20,7 @@ app.get('/users', function(req, res) {
                 return;
             }
 
-            User.countDocuments({}, (err, count) => {
+            User.countDocuments({ status: true }, (err, count) => {
                 res.json({
                     error: false,
                     users,
@@ -77,19 +77,33 @@ app.put('/users/:id', function(req, res) {
 app.delete('/users/:id', function(req, res) {
     let id = req.params.id;
 
-    User.findByIdAndRemove(id, (err, userDB) => {
+    // User.findByIdAndRemove(id, (err, userDB) => {
+    //     if (err) {
+    //         res.status(400).json({
+    //             error: err
+    //         });
+    //         return;
+    //     }
+
+    //     if (!userDB) {
+    //         res.status(400).json({
+    //             error: {
+    //                 message: 'User not found'
+    //             },
+    //         });
+    //         return;
+    //     }
+
+    //     res.json({
+    //         error: false,
+    //         user: userDB
+    //     });
+    // });
+
+    let user = User.findByIdAndUpdate(id, { status: false }, { new: true }, (err, userDB) => {
         if (err) {
             res.status(400).json({
                 error: err
-            });
-            return;
-        }
-
-        if (!userDB) {
-            res.status(400).json({
-                error: {
-                    message: 'User not found'
-                },
             });
             return;
         }
