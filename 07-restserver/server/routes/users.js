@@ -20,9 +20,12 @@ app.get('/users', function(req, res) {
                 return;
             }
 
-            res.json({
-                users
-            });
+            User.countDocuments({}, (err, count) => {
+                res.json({
+                    users,
+                    total: count
+                });
+            })
         });
 });
 
