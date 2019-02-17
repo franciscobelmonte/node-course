@@ -9,7 +9,7 @@ app.get('/users', function(req, res) {
     let from = req.query.from || 0;
     let limit = req.query.limit || 5;
 
-    User.find({})
+    User.find({}, 'name email role status google img')
         .skip(Number(from))
         .limit(Number(limit))
         .exec((err, users) => {
