@@ -45,7 +45,7 @@ user.methods.toJSON = function() {
     let user = this.toObject();
     delete user.password;
     return user;
-}
+};
 
 user.plugin(uniqueValidator, {
     message: '{PATH} must be unique'
