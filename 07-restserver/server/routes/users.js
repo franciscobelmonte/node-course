@@ -5,7 +5,9 @@ const _ = require('underscore');
 
 const User = require('../models/user');
 
-app.get('/users', function(req, res) {
+const { verifyToken } = require('../middlewares/authentication');
+
+app.get('/users', verifyToken, function(req, res) {
     let from = req.query.from || 0;
     let limit = req.query.limit || 5;
 
@@ -26,7 +28,7 @@ app.get('/users', function(req, res) {
                     users,
                     total: count
                 });
-            })
+            });
         });
 });
 
