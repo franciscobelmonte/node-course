@@ -18,6 +18,22 @@ let verifyToken = (req, res, next) => {
     });
 };
 
+let verifyAdminRole = (req, res, next) => {
+
+    let user = req.user;
+
+    if (user.role === 'ADMIN_ROLE') {
+        return next();
+    }
+
+    return res.json({
+        error: {
+            message: 'User is not admin'
+        }
+    });
+};
+
 module.exports = {
-    verifyToken
+    verifyToken,
+    verifyAdminRole
 };

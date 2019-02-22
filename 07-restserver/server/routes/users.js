@@ -5,7 +5,7 @@ const _ = require('underscore');
 
 const User = require('../models/user');
 
-const { verifyToken } = require('../middlewares/authentication');
+const { verifyToken, verifyAdminRole } = require('../middlewares/authentication');
 
 app.get('/users', verifyToken, function(req, res) {
     let from = req.query.from || 0;
@@ -32,7 +32,7 @@ app.get('/users', verifyToken, function(req, res) {
         });
 });
 
-app.post('/users', verifyToken, function(req, res) {
+app.post('/users', [verifyToken, verifyAdminRole], function(req, res) {
     let body = req.body;
 
     let user = new User({
@@ -57,7 +57,7 @@ app.post('/users', verifyToken, function(req, res) {
     });
 });
 
-app.put('/users/:id', verifyToken, function(req, res) {
+app.put('/users/:id', [verifyToken, verifyAdminRole], function(req, res) {
     let id = req.params.id;
     let body = _.pick(req.body, ['name', 'email', 'img', 'role', 'status']);
 
@@ -76,7 +76,7 @@ app.put('/users/:id', verifyToken, function(req, res) {
     });
 });
 
-app.delete('/users/:id', verifyToken, function(req, res) {
+app.delete('/users/:id', [verifyToken, verifyAdminRole], function(req, res) {
     let id = req.params.id;
 
     // User.findByIdAndRemove(id, (err, userDB) => {
