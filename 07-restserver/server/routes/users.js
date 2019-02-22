@@ -32,7 +32,7 @@ app.get('/users', verifyToken, function(req, res) {
         });
 });
 
-app.post('/users', function(req, res) {
+app.post('/users', verifyToken, function(req, res) {
     let body = req.body;
 
     let user = new User({
@@ -57,7 +57,7 @@ app.post('/users', function(req, res) {
     });
 });
 
-app.put('/users/:id', function(req, res) {
+app.put('/users/:id', verifyToken, function(req, res) {
     let id = req.params.id;
     let body = _.pick(req.body, ['name', 'email', 'img', 'role', 'status']);
 
@@ -76,7 +76,7 @@ app.put('/users/:id', function(req, res) {
     });
 });
 
-app.delete('/users/:id', function(req, res) {
+app.delete('/users/:id', verifyToken, function(req, res) {
     let id = req.params.id;
 
     // User.findByIdAndRemove(id, (err, userDB) => {

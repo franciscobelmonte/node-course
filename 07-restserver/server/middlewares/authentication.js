@@ -6,7 +6,9 @@ let verifyToken = (req, res, next) => {
     jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
         if (err) {
             return res.status(401).json({
-                error: err
+                error: {
+                    message: 'JWT is not valid'
+                }
             });
         }
 
