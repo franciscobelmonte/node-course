@@ -59,17 +59,77 @@ async function verify(token) {
     });
     const payload = ticket.getPayload();
 
-    console.log(payload.name);
-    console.log(payload.email);
-    console.log(payload.picture);
+    return {
+        name: payload.name,
+        email: payload.email,
+        picture: payload.picture,
+        google: true
+    };
 }
 
-app.post('/google', (req, res) => {
+app.post('/google', async(req, res) => {
     let token = req.body.idtoken;
 
-    verify(token);
+    let googleUser = await verify(token).catch(error => {
+        return res.status(403).json({
+            error: error
+        });
+    });
+
+    User.findOne({ email: googleUser.email }, (err, userDB) => {
+        if (err) {
+            res.status(500).json({
+                error: err
+            });
+            return;
+        }
+
+        if (userDB) {
+            if (!userDB.google) {
+                return res.status(400).json({
+                    error: {
+                        message: 'You must to login via user/password authentication'
+                    }
+                });
+            }
+
+            let token = jwt.sign({
+                user: userDB
+            }, process.env.TOKEN_SECRET, { expiresIn: process.env.TOKEN_EXPIRES });
+
+            return res.json({
+                user: userDB,
+                token
+            });
+        }
+
+        let user = new User();
+        user.name = googleUser.name;
+        user.email = googleUser.email;
+        user.img = googleUser.picture;
+        user.google = true;
+        user.password = ':)';
+
+        user.save((err, userDB) => {
+            if (err) {
+                res.status(500).json({
+                    error: err
+                });
+                return;
+            }
+
+            let token = jwt.sign({
+                user: userDB
+            }, process.env.TOKEN_SECRET, { expiresIn: process.env.TOKEN_EXPIRES });
+
+            return res.json({
+                user: userDB,
+                token
+            });
+        });
+    });
+
 
 });
-
 
 module.exports = app;
