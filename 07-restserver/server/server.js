@@ -8,14 +8,15 @@ const app = express();
 
 const bodyParser = require('body-parser');
 
-app.use(require('./routes/index'));
+app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({
     limit: '50mb',
     extended: false,
     parameterLimit: 1000000
 }));
-app.use(bodyParser.json());
+
+app.use(require('./routes/index'));
 
 app.use(express.static(path.resolve(__dirname, '../public')));
 
