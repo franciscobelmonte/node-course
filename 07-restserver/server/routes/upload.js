@@ -66,7 +66,7 @@ app.put('/upload/:type/:id', (req, res) => {
         if (type == 'products') {
             uploadImageToProduct(id, filename, res);
         }
-    })
+    });
 
 });
 
@@ -102,7 +102,7 @@ function uploadImageToUser(id, filename, res) {
                 user: userSavedDB,
                 img: filename
             });
-        })
+        });
     });
 }
 
@@ -138,7 +138,7 @@ function uploadImageToProduct(id, filename, res) {
                 product: productSavedDB,
                 img: filename
             });
-        })
+        });
     });
 }
 
