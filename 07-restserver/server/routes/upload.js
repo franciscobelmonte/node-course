@@ -6,6 +6,7 @@ const path = require('path');
 const app = express();
 
 const User = require('../models/user');
+const Product = require('../models/product');
 
 app.use(fileUpload({}));
 
@@ -61,6 +62,10 @@ app.put('/upload/:type/:id', (req, res) => {
         if (type == 'users') {
             uploadImageToUser(id, filename, res);
         }
+
+        if (type == 'products') {
+            uploadImageToProduct(id, filename, res);
+        }
     })
 
 });
@@ -101,8 +106,40 @@ function uploadImageToUser(id, filename, res) {
     });
 }
 
-function uploadImageToProduct() {
+function uploadImageToProduct(id, filename, res) {
+    Product.findById(id, (error, productDB) => {
+        if (error) {
+            deleteOldFile(filename, 'products');
+            res.status(500).json({
+                error
+            });
+            return;
+        }
 
+        if (!productDB) {
+            deleteOldFile(filename, 'products');
+            res.status(400).json({
+                error: {
+                    message: 'Product not found'
+                }
+            });
+            return;
+        }
+
+        if (productDB.img) {
+            deleteOldFile(productDB.img, 'products');
+        }
+
+        productDB.img = filename;
+
+        productDB.save((error, productSavedDB) => {
+            res.json({
+                error: false,
+                product: productSavedDB,
+                img: filename
+            });
+        })
+    });
 }
 
 function deleteOldFile(filename, type) {
