@@ -6,18 +6,21 @@ let { verifyToken, verifyAdminRole } = require('../middlewares/authentication');
 let Category = require('../models/category');
 
 app.get('/categories', verifyToken, (req, res) => {
-    Category.find({}, (error, categories) => {
-        if (error) {
-            return res.status(500).json({
-                error
-            });
-        }
+    Category.find({})
+        .sort('description')
+        .populate('user', 'name email')
+        .exec((error, categories) => {
+            if (error) {
+                return res.status(500).json({
+                    error
+                });
+            }
 
-        res.json({
-            error: false,
-            categories: categories
+            res.json({
+                error: false,
+                categories: categories
+            });
         });
-    });
 });
 
 app.get('/categories/:id', verifyToken, (req, res) => {
