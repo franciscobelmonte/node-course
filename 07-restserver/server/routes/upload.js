@@ -1,5 +1,7 @@
 const express = require('express');
 const fileUpload = require('express-fileupload');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 
@@ -56,12 +58,59 @@ app.put('/upload/:type/:id', (req, res) => {
             return;
         }
 
-        res.json({
-            error: false,
-            message: 'File upload successfully.'
-        })
+        if (type == 'users') {
+            uploadImageToUser(id, filename, res);
+        }
     })
 
 });
+
+function uploadImageToUser(id, filename, res) {
+    User.findById(id, (error, userDB) => {
+        if (error) {
+            deleteOldFile(filename, 'users');
+            res.status(500).json({
+                error
+            });
+            return;
+        }
+
+        if (!userDB) {
+            deleteOldFile(filename, 'users');
+            res.status(400).json({
+                error: {
+                    message: 'User not found'
+                }
+            });
+            return;
+        }
+
+        if (userDB.img) {
+            deleteOldFile(userDB.img, 'users');
+        }
+
+        userDB.img = filename;
+
+        userDB.save((error, userSavedDB) => {
+            res.json({
+                error: false,
+                user: userSavedDB,
+                img: filename
+            });
+        })
+    });
+}
+
+function uploadImageToProduct() {
+
+}
+
+function deleteOldFile(filename, type) {
+    let oldFile = path.resolve(__dirname, '../../uploads/', type, filename);
+
+    if (fs.existsSync(oldFile)) {
+        fs.unlinkSync(oldFile);
+    }
+}
 
 module.exports = app;
