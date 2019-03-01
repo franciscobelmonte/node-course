@@ -55,6 +55,28 @@ app.get('/products/:id', verifyToken, (req, res) => {
         });
 });
 
+app.get('/products/search/:term', verifyToken, (req, res) => {
+
+    let term = req.params.term;
+
+    let regex = new RegExp(term, 'i');
+
+    Product.find({ name: regex })
+        .populate('category', 'name description')
+        .exec((error, products) => {
+            if (error) {
+                return res.status(500).json({
+                    error
+                });
+            }
+
+            res.json({
+                error: false,
+                products
+            });
+        });
+});
+
 app.post('/products', verifyToken, (req, res) => {
     let body = req.body;
 
