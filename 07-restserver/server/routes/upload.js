@@ -3,9 +3,25 @@ const fileUpload = require('express-fileupload');
 
 const app = express();
 
+const User = require('../models/user');
+
 app.use(fileUpload({}));
 
-app.put('/upload', (req, res) => {
+app.put('/upload/:type/:id', (req, res) => {
+
+    let type = req.params.type;
+    let id = req.params.id;
+
+    let validTypes = ['products', 'users'];
+
+    if (!validTypes.includes(type)) {
+        res.status(400).json({
+            error: {
+                message: `${type} is not valid`
+            }
+        });
+        return;
+    }
 
     if (!req.files) {
         res.status(400).json({
@@ -30,7 +46,9 @@ app.put('/upload', (req, res) => {
         return;
     }
 
-    file.mv(`uploads/${file.name}`, (error) => {
+    let filename = `${id}-${new Date().getMilliseconds()}.${extension}`;
+
+    file.mv(`uploads/${type}/${filename}`, (error) => {
         if (error) {
             res.status(500).json({
                 error
