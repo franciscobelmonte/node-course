@@ -27,6 +27,11 @@
             name: 'Francisco',
             message: 'Hello world!'
         });
+
+        // Listen event from server
+        socket.on('sendMessage', function(message) {
+            console.log('Server', message);
+        });
     </script>
 </body>
 
