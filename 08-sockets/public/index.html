@@ -24,8 +24,10 @@
 
         // Emit event to server   
         socket.emit('sendMessage', {
-            name: 'Francisco',
+            user: 'Francisco',
             message: 'Hello world!'
+        }, function(response) {
+            console.log('Server response:', response);
         });
 
         // Listen event from server
