@@ -1,4 +1,4 @@
-const { io } = require('../server')
+const { io } = require('../server');
 
 io.on('connection', (client) => {
     console.log('User connected');
