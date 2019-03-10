@@ -5,7 +5,7 @@ class Users {
 
     connect(id, name) {
         let user = { id, name };
-        this.user.push(user);
+        this.users.push(user);
 
         return this.users;
     }
@@ -21,9 +21,9 @@ class Users {
     }
 
     userById(id) {
-        return this.users.filter(user => {
+        return this.users.find(user => {
             return user.id === id
-        }).pop();
+        });
     }
 
     users() {
