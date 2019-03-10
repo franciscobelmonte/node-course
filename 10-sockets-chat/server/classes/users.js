@@ -3,8 +3,8 @@ class Users {
         this.users = [];
     }
 
-    connect(id, name) {
-        let user = { id, name };
+    connect(id, name, channel) {
+        let user = { id, name, channel };
         this.users.push(user);
 
         return this.users;
@@ -30,8 +30,10 @@ class Users {
         return this.users;
     }
 
-    userByChannel() {
-
+    connectedUsersbyChannel(channel) {
+        return this.users.filter(user => {
+            return user.channel === channel;
+        });
     }
 }
 

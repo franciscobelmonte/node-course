@@ -2,13 +2,14 @@ var socket = io();
 
 var params = new URLSearchParams(window.location.search);
 
-if (!params.has('name')) {
+if (!params.has('name') || !params.has('channel')) {
     window.location = 'index.html';
-    throw new Error('Name is required');
+    throw new Error('Name and channel is required');
 }
 
 var user = {
-    name: params.get('name')
+    name: params.get('name'),
+    channel: params.get('channel')
 };
 
 socket.on('connect', function() {

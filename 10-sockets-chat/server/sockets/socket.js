@@ -8,31 +8,33 @@ io.on('connection', (client) => {
 
     client.on('connectToChat', (user, callback) => {
         console.log('User connected', user);
-        if (!user.name) {
+        if (!user.name || !user.channel) {
             callback({
                 error: true,
-                message: 'Name is required'
+                message: 'Name and channel is required'
             });
         }
 
-        let connectedUsers = users.connect(client.id, user.name);
+        client.join(user.channel);
 
-        client.broadcast.emit('listConnectedUsers', users.connectedUsers());
+        let connectedUsers = users.connect(client.id, user.name, user.channel);
 
-        callback(connectedUsers);
+        client.broadcast.to(user.channel).emit('listConnectedUsers', users.connectedUsersbyChannel(user.channel));
+
+        callback(users.connectedUsersbyChannel(user.channel));
     });
 
     client.on('disconnect', () => {
         let user = users.disconnect(client.id);
-        client.broadcast.emit('sendMessage', createMessage('Admin', `${user.name} has disconnected from the chat`));
+        client.broadcast.to(user.channel).emit('sendMessage', createMessage('Admin', `${user.name} has disconnected from the chat`));
 
-        client.broadcast.emit('listConnectedUsers', users.connectedUsers());
+        client.broadcast.to(user.channel).emit('listConnectedUsers', users.connectedUsersbyChannel());
     });
 
     client.on('sendMessage', (message) => {
         let user = users.userById(client.id);
 
-        client.broadcast.emit('sendMessage', createMessage(user.name, message.message));
+        client.broadcast.to(user.channel).emit('sendMessage', createMessage(user.name, message.message));
     });
 
     client.on('sendPrivateMessage', (message) => {
