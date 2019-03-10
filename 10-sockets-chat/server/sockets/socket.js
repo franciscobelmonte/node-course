@@ -28,7 +28,7 @@ io.on('connection', (client) => {
         let user = users.disconnect(client.id);
         client.broadcast.to(user.channel).emit('sendMessage', createMessage('Admin', `${user.name} has disconnected from the chat`));
 
-        client.broadcast.to(user.channel).emit('listConnectedUsers', users.connectedUsersbyChannel());
+        client.broadcast.to(user.channel).emit('listConnectedUsers', users.connectedUsersbyChannel(user.channel));
     });
 
     client.on('sendMessage', (message) => {
