@@ -26,7 +26,7 @@ class Users {
         });
     }
 
-    users() {
+    connectedUsers() {
         return this.users;
     }
 

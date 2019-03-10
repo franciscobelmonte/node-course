@@ -15,6 +15,19 @@ io.on('connection', (client) => {
         }
 
         let connectedUsers = users.connect(client.id, user.name);
+
+        client.broadcast.emit('listConnectedUsers', users.connectedUsers());
+
         callback(connectedUsers);
+    });
+
+    client.on('disconnect', () => {
+        let user = users.disconnect(client.id);
+        client.broadcast.emit('sendMessage', {
+            user: 'Admin',
+            message: `${user.name} has disconnected from the chat`
+        });
+
+        client.broadcast.emit('listConnectedUsers', users.connectedUsers());
     })
 });
