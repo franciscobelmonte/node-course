@@ -30,3 +30,7 @@ socket.on('sendMessage', function(message) {
 socket.on('listConnectedUsers', function(users) {
     console.log(users);
 });
+
+socket.on('sendPrivateMessage', function(message) {
+    console.log('Private message', message);
+});

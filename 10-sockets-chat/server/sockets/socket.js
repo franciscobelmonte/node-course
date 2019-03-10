@@ -33,5 +33,10 @@ io.on('connection', (client) => {
         let user = users.userById(client.id);
 
         client.broadcast.emit('sendMessage', createMessage(user.name, message.message));
-    })
+    });
+
+    client.on('sendPrivateMessage', (message) => {
+        let user = users.userById(client.id);
+        client.broadcast.to(message.to).emit('sendPrivateMessage', createMessage(user.name, message.message));
+    });
 });
