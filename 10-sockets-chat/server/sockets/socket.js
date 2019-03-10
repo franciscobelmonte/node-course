@@ -19,6 +19,7 @@ io.on('connection', (client) => {
 
         let connectedUsers = users.connect(client.id, user.name, user.channel);
 
+        client.broadcast.to(user.channel).emit('sendMessage', createMessage('Admin', user.name + ' has connected to the chat'));
         client.broadcast.to(user.channel).emit('listConnectedUsers', users.connectedUsersbyChannel(user.channel));
 
         callback(users.connectedUsersbyChannel(user.channel));
@@ -31,10 +32,12 @@ io.on('connection', (client) => {
         client.broadcast.to(user.channel).emit('listConnectedUsers', users.connectedUsersbyChannel(user.channel));
     });
 
-    client.on('sendMessage', (message) => {
+    client.on('sendMessage', (message, callback) => {
         let user = users.userById(client.id);
 
         client.broadcast.to(user.channel).emit('sendMessage', createMessage(user.name, message.message));
+
+        callback(message);
     });
 
     client.on('sendPrivateMessage', (message) => {

@@ -27,6 +27,7 @@ socket.on('disconnect', function() {
 
 socket.on('sendMessage', function(message) {
     console.log(message);
+    renderMessage(message, false);
 });
 
 socket.on('listConnectedUsers', function(users) {
