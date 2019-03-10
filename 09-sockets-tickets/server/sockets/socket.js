@@ -18,4 +18,17 @@ io.on('connection', (client) => {
     client.emit('lastTicket', {
         last: ticketControl.lastTicket()
     });
+
+    client.on('attendTicket', (data, callback) => {
+        if (!data.desktop) {
+            return callback({
+                error: true,
+                message: 'Desktop is required'
+            });
+        }
+
+        let ticket = ticketControl.attendTicket(data.desktop);
+
+        callback(ticket);
+    });
 });
