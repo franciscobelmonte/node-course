@@ -22,6 +22,17 @@ export default class MySql{
         return this._mysql || (this._mysql = new this());
     }
 
+    static executeQuery(query: string, callback: Function) {
+        this.instance.connection.query(query, (err, results: Object[], fields) => {
+            if(err){
+                console.log('Error in query', err);
+                return callback(err);
+            }
+
+            callback(null, results);
+        });
+    }
+
     private connect(){
         this.connection.connect((error: mysql.MysqlError) => {
             if (error) {
